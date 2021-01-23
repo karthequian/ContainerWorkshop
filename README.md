@@ -18,8 +18,11 @@
 * [Module 4](#module-4)
     * [Debugging Application Issues and Errors](#debugging-application-issues-and-errors)
     * [Prerequisites](#prerequisites-3)
+
 ---
+
 ## Welcome
+
 ---
 ## Module 1: Introduction to Containers and Docker
 
@@ -367,15 +370,30 @@ Now that we know how to run a container based on an image, let's update and run 
 ### Updating and Building a Docker Image
 
 
-## Module 2
-### Introduction to Kubernetes
+## Module 2- Introduction to Kubernetes
+### Prerequisites
+For this section, we will need to install 2 tools that allow you to run and interact with a Kubernetes cluster locally.
+
+#### kubectl
+
+Kubectl is the Kubernetes command line tool that allows you to run commands against a Kubernetes cluster. 
+
+On a mac, you can easily install kubectl following along with [the install document](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos). 
+
+There are multiple ways to do this- I prefer the curl method because I can get the latest stable version of kubectl installed on my machine, but the brew install way works just as well.
+
+To test whether kubectl was installed correctly, open your command line, and type the following command `kubectl version --client`. You should get an appropriate version like the screenshot below (but your version might be higher than what is shown in the screenshot).
+
+<img src="images/kubectl-install1.png" />
+
+#### minikube
+
+
+## Module 3- Creating a real world application in Kubernetes
 ### Prerequisites
 
-## Module 3
-### Creating a real world application in Kubernetes
+## Module 4- Debugging Application Issues and Errors
+
 ### Prerequisites
 
-## Module 4
-### Debugging Application Issues and Errors
-### Prerequisites
 

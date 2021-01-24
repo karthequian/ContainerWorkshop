@@ -1,5 +1,8 @@
 # Introduction to Containers, Docker and Kubernetes
 
+Table of Contents
+=================
+
 * [Welcome](#welcome)
 * [Module 1: Introduction to Containers and Docker](#module-1-introduction-to-containers-and-docker)
     * [Prerequisites](#prerequisites)
@@ -9,15 +12,17 @@
     * [Push an Image to your Docker Hub Account](#push-an-image-to-your-docker-hub-account)
     * [Update and Build a Docker Image](#update-and-build-a-docker-image)
     * [Updating and Building a Docker Image](#updating-and-building-a-docker-image)
-* [Module 2](#module-2)
-    * [Introduction to Kubernetes](#introduction-to-kubernetes)
+* [Module 2- Introduction to Kubernetes](#module-2--introduction-to-kubernetes)
     * [Prerequisites](#prerequisites-1)
-* [Module 3](#module-3)
-    * [Creating a real world application in Kubernetes](#creating-a-real-world-application-in-kubernetes)
-    * [Prerequisites](#prerequisites-2)
-* [Module 4](#module-4)
-    * [Debugging Application Issues and Errors](#debugging-application-issues-and-errors)
-    * [Prerequisites](#prerequisites-3)
+    * [kubectl](#kubectl)
+    * [minikube](#minikube)
+    * [Start minikube](#start-minikube)
+    * [Set up your helloworld](#set-up-your-helloworld)
+    * [Setting up a Service](#setting-up-a-service)
+    * [Commands run in this section](#commands-run-in-this-section)
+* [Module 3- Creating a real world application in Kubernetes](#module-3--creating-a-real-world-application-in-kubernetes)
+* [Module 4- Debugging Application Issues and Errors](#module-4--debugging-application-issues-and-errors)
+
 
 ---
 
@@ -178,7 +183,7 @@ $ docker stop helloworld_app
 $ docker rm helloworld_app
 ```
 
-We are done with this part of the HOL.
+We are done with this part of the exercise.
 
 ***
 
@@ -378,7 +383,7 @@ For this section, we will need to install 2 tools that allow you to run and inte
 
 Kubectl is the Kubernetes command line tool that allows you to run commands against a Kubernetes cluster. 
 
-On a mac, you can easily install kubectl following along with [the install document](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos). 
+On a mac, you can install kubectl following along with [the install document](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos). 
 
 There are multiple ways to do this- I prefer the curl method because I can get the latest stable version of kubectl installed on my machine, but the brew install way works just as well.
 
@@ -388,12 +393,96 @@ To test whether kubectl was installed correctly, open your command line, and typ
 
 #### minikube
 
+Minikube is a tool that allows you to run a single node Kubernetes cluster on your machine. It's primary usecase is to help users learn about Kubernetes and work with Kubernetes locally.
+
+On a mac, you can install minikube following along the [Official Install documents](https://minikube.sigs.k8s.io/docs/start/#what-youll-need). 
+
+Again you can use the `curl` or the `brew install` method as shown on the site- I once again prefer the curl method because I can get the latest stable version of minikube.
+
+To test whether minikube was installed correctly, open your command line, and type the following command `minikube version`. You should get an appropriate version like the screenshot below (but your version might be higher than what is shown in the screenshot).
+
+<img src="images/minikube-install1.png">
+
+### Start minikube
+
+Run the command `minikube start --driver=hyperkit`. This command sets up a Kubernetes dev environment for you via hyperkit (on mac). There are other drivers that can be used here as well like the docker, virtualbox or ssh. 
+
+The last statement in the output states that kubectl can talk to minikube. We can verify this by running the command `kubectl get nodes`
+
+This will show you that minikube is ready to use.
+
+
+### Set up your helloworld
+
+Make sure you have your files unzipped to your local machine (for example /documents/ContainerWorkshop). You should be in your existing directory with the exercise files for module2 as shown below.
+
+```
+$ pwd
+/Users/karthikgaekwad/Documents/work/github.com/karthequian/ContainerWorkshop/module2
+$ ls -al
+total 8
+drwxr-xr-x  3 karthikgaekwad  staff   96 Jan 23 19:15 .
+drwxr-xr-x  8 karthikgaekwad  staff  256 Jan 23 19:15 ..
+-rw-r--r--  1 karthikgaekwad  staff  449 Jan 23 19:16 helloworld.yaml
+```
+
+We will run one of the most common Docker helloworld applications out there- [https://hub.docker.com/r/karthequian/helloworld/]
+
+To run this, type:
+
+```
+kubectl create -f helloworld.yaml
+```
+
+This command creates a deployment resource from the file helloworld.yaml, which, in this case, contains a deployment called "hellworld", pulling from the image karthequian/helloworld, and exposes port 80 of the container to the pod.
+
+Running this command will give you this output, stating that the deployment "hw" was created.
+
+```
+$ kubectl create -f helloworld.yaml 
+deployment.apps/helloworld created
+```
+
+To view the running resources, the following commands are helpful. 
+
+To view the pods running, you can run `kubectl get pods`. This will return all the pods running in the default namespace in Kubernetes including the pods from the helloworld deployment.
+
+To view the replicasets running, you can run `kubectl get replicasets`. This will return all the replicasets running in the default namespace in Kubernetes including the pods from the helloworld deployment.
+
+To view the deployments running, you can run `kubectl get deployments`. This will return all the deployments running in the default namespace in Kubernetes including the pods from the helloworld deployment.
+
+We can run the command `kubectl get all` to see all our resources running.
+
+### Setting up a Service
+You'll notice that in the `kubectl get all` command, the deployment and pods are running, but it doesn't show you how to access the application.
+
+This is because we have not defined a service for the deployment. To make the helloworld container accessible outside the Kubernetes virtual network, you have to expose the deployment as a Kubernetes service.
+
+To do this, we can expose the pod to the public internet using the kubectl expose command 
+`kubectl expose deployment helloworld --type=NodePort`
+
+The `--type=NodePort` flag exposes the deployment outside of the cluster. If you're using this on a cloud provider, you can use a `--type=LoadBalancer` that will provision an external IP address would be provisioned to access the service.
+
+To view the final user interface, use the minikube service command.
+
+`minikube service helloworld`
+
+This will open your web browser to your application that is running in Kubernetes!
+
+
+#### Commands run in this section
+```
+pwd
+ls -al
+kubectl get all
+kubectl create -f helloworld.yaml
+kubectl expose deployment helloworld --type=NodePort
+minikube service helloworld
+```
 
 ## Module 3- Creating a real world application in Kubernetes
-### Prerequisites
 
 ## Module 4- Debugging Application Issues and Errors
 
-### Prerequisites
 
 

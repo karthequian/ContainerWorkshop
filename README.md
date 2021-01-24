@@ -3,35 +3,37 @@
 Table of Contents
 =================
 
-* [Welcome](#welcome)
-* [Module 1: Introduction to Containers and Docker](#module-1-introduction-to-containers-and-docker)
-    * [Prerequisites](#prerequisites)
-    * [Run a first Docker Helloworld](#run-a-first-docker-helloworld)
-    * [Hello Helloworld](#hello-helloworld)
-    * [Create a Dockerfile and Docker Image](#create-a-dockerfile-and-docker-image)
-    * [Push an Image to your Docker Hub Account](#push-an-image-to-your-docker-hub-account)
-    * [Update and Build a Docker Image](#update-and-build-a-docker-image)
-    * [Updating and Building a Docker Image](#updating-and-building-a-docker-image)
-* [Module 2- Introduction to Kubernetes](#module-2--introduction-to-kubernetes)
-    * [Prerequisites](#prerequisites-1)
-    * [Kubectl](#kubectl)
-    * [Minikube](#minikube)
-    * [Start minikube](#start-minikube)
-    * [Set up your helloworld](#set-up-your-helloworld)
-    * [Setting up a Service](#setting-up-a-service)
-    * [Cleaning up your resources](#cleaning-up-your-resources)
-    * [Commands run in this section](#commands-run-in-this-section)
-* [Module 3- Creating a real world application in Kubernetes](#module-3--creating-a-real-world-application-in-kubernetes)
-* [Module 4- Debugging Application Issues and Errors](#module-4--debugging-application-issues-and-errors)
+   * [Introduction to Containers, Docker and Kubernetes](#introduction-to-containers-docker-and-kubernetes)
+   * [Table of Contents](#table-of-contents)
+   * [Welcome](#welcome)
+   * [Module 1: Introduction to Containers and Docker](#module-1-introduction-to-containers-and-docker)
+      * [Prerequisites](#prerequisites)
+      * [Run a first Docker Helloworld](#run-a-first-docker-helloworld)
+      * [Hello Helloworld](#hello-helloworld)
+      * [Create a Dockerfile and Docker Image](#create-a-dockerfile-and-docker-image)
+      * [Push an Image to your Docker Hub Account](#push-an-image-to-your-docker-hub-account)
+      * [Update and Build a Docker Image](#update-and-build-a-docker-image)
+      * [Updating and Building a Docker Image](#updating-and-building-a-docker-image)
+   * [Module 2- Introduction to Kubernetes](#module-2--introduction-to-kubernetes)
+      * [Prerequisites](#prerequisites-1)
+      * [Kubectl](#kubectl)
+      * [Minikube](#minikube)
+      * [Start minikube](#start-minikube)
+      * [Set up your helloworld](#set-up-your-helloworld)
+      * [Setting up a Service](#setting-up-a-service)
+      * [Cleaning up your resources](#cleaning-up-your-resources)
+      * [Commands run in this section](#commands-run-in-this-section)
+   * [Module 3- Creating a real world application in Kubernetes](#module-3--creating-a-real-world-application-in-kubernetes)
+   * [Module 4- Debugging Application Issues and Errors](#module-4--debugging-application-issues-and-errors)
 
 ---
 
-## Welcome
+# Welcome
 
 ---
-## Module 1: Introduction to Containers and Docker
+# Module 1: Introduction to Containers and Docker
 
-### Prerequisites
+## Prerequisites
 To run the exercises in this section, you will need to install Docker on your local machine. If you're running on a mac, the easiest way to install Docker is to install [Docker Desktop on Mac](https://docs.docker.com/docker-for-mac/install/). 
 
 Follow the instructions on the site to install Docker Desktop.
@@ -52,9 +54,9 @@ To test whether Docker was installed correctly, open your command line, and type
 
 ![Docker Version](images/docker-version.png)
 
-### Run a first Docker Helloworld
+## Run a first Docker Helloworld
 
-### Hello Helloworld
+## Hello Helloworld
 
 Run Docker’s Hello-world example:
 
@@ -187,7 +189,7 @@ We are done with this part of the exercise.
 
 ***
 
-### Create a Dockerfile and Docker Image
+## Create a Dockerfile and Docker Image
 
 In this exercise you will build your own image from a Dockerfile.
 
@@ -276,7 +278,7 @@ Notice the output in the terminal, the container will run once, then stop.
 
 ***
 
-### Push an Image to your Docker Hub Account
+## Push an Image to your Docker Hub Account
 
 **Registries**
 
@@ -368,17 +370,17 @@ $ docker rm $(docker ps -a -q)
 
 ***
 
-### Update and Build a Docker Image
+## Update and Build a Docker Image
 
 Now that we know how to run a container based on an image, let's update and run a 
 
-### Updating and Building a Docker Image
+## Updating and Building a Docker Image
 
 
-## Module 2- Introduction to Kubernetes
-### Prerequisites
+# Module 2- Introduction to Kubernetes
+## Prerequisites
 For this section, we will need to install 2 tools that allow you to run and interact with a Kubernetes cluster locally.
-#### Kubectl
+## Kubectl
 
 Kubectl is the Kubernetes command line tool that allows you to run commands against a Kubernetes cluster. 
 
@@ -390,7 +392,7 @@ To test whether kubectl was installed correctly, open your command line, and typ
 
 <img src="images/kubectl-install1.png" />
 
-#### Minikube
+## Minikube
 
 Minikube is a tool that allows you to run a single node Kubernetes cluster on your machine. It's primary usecase is to help users learn about Kubernetes and work with Kubernetes locally.
 
@@ -402,7 +404,7 @@ To test whether minikube was installed correctly, open your command line, and ty
 
 <img src="images/minikube-install1.png">
 
-### Start minikube
+## Start minikube
 
 Run the command `minikube start --driver=hyperkit`. This command sets up a Kubernetes dev environment for you via hyperkit (on mac). There are other drivers that can be used here as well like the docker, virtualbox or ssh. 
 
@@ -411,7 +413,7 @@ The last statement in the output states that kubectl can talk to minikube. We ca
 This will show you that minikube is ready to use.
 
 
-### Set up your helloworld
+## Set up your helloworld
 
 Make sure you have your files unzipped to your local machine (for example /documents/ContainerWorkshop). You should be in your existing directory with the exercise files for module2 as shown below.
 
@@ -452,7 +454,7 @@ To view the deployments running, you can run `kubectl get deployments`. This wil
 
 We can run the command `kubectl get all` to see all our resources running.
 
-### Setting up a Service
+## Setting up a Service
 You'll notice that in the `kubectl get all` command, the deployment and pods are running, but it doesn't show you how to access the application.
 
 This is because we have not defined a service for the deployment. To make the helloworld container accessible outside the Kubernetes virtual network, you have to expose the deployment as a Kubernetes service.
@@ -468,7 +470,7 @@ To view the final user interface, use the minikube service command.
 
 This will open your web browser to your application that is running in Kubernetes!
 
-### Cleaning up your resources
+## Cleaning up your resources
 
 To delete the deployments and services, you can run the `kubectl delete` command. For example, to delete an individual service, you can run the command `kubectl delete service <service-name>`. 
 
@@ -478,7 +480,7 @@ To verify that the helloworld service was deleted, run the command `kubectl get 
 
 Similar to the `apply` and `create` commands, you can also pass a filename as well. For example, similar to the way the deployment was created from the helloworld.yaml file, run the delete `kubectl delete -f helloworld.yaml` to delete all resources mentioned in the file.
 
-### Commands run in this section
+## Commands run in this section
 
 ```
 kubectl get all
@@ -489,9 +491,9 @@ kubectl delete service helloworld
 kubectl delete -f helloworld.yaml
 ```
 
-## Module 3- Creating a real world application in Kubernetes
+# Module 3- Creating a real world application in Kubernetes
 
-## Module 4- Debugging Application Issues and Errors
+# Module 4- Debugging Application Issues and Errors
 
 
 

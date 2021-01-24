@@ -1,10 +1,10 @@
 # Introduction to Containers, Docker and Kubernetes
-
 Table of Contents
 =================
 
    * [Introduction to Containers, Docker and Kubernetes](#introduction-to-containers-docker-and-kubernetes)
    * [Table of Contents](#table-of-contents)
+   * [Table of Contents](#table-of-contents-1)
    * [Welcome](#welcome)
    * [Module 1: Introduction to Containers and Docker](#module-1-introduction-to-containers-and-docker)
       * [Prerequisites](#prerequisites)
@@ -25,6 +25,14 @@ Table of Contents
       * [Commands run in this section](#commands-run-in-this-section)
    * [Module 3- Creating a real world application in Kubernetes](#module-3--creating-a-real-world-application-in-kubernetes)
       * [Prerequisites](#prerequisites-2)
+      * [Dealing with Environment Variables](#dealing-with-environment-variables)
+      * [Configurations via configmaps](#configurations-via-configmaps)
+         * [Learn how to declare a configmap](#learn-how-to-declare-a-configmap)
+         * [Understand how to call a configmap from a deployment](#understand-how-to-call-a-configmap-from-a-deployment)
+      * [Configurations via secrets](#configurations-via-secrets)
+         * [Learn how to declare a secret](#learn-how-to-declare-a-secret)
+         * [Understand how to add a secret to a deployment](#understand-how-to-add-a-secret-to-a-deployment)
+      * [Running a bigger example](#running-a-bigger-example)
    * [Module 4- Debugging Application Issues and Errors](#module-4--debugging-application-issues-and-errors)
       * [Prerequisites](#prerequisites-3)
       * [Kubernetes Techniques](#kubernetes-techniques)
@@ -601,6 +609,9 @@ kubectl logs <pod-name>
 ```
 
 ## Configurations via secrets
+
+### Learn how to declare a secret
+
 Just like configuration data, applications require other data that might be of more sensitive in nature- for example database passwords, or API tokens. Passing these in the yaml for a deployment or pod would make them visible to everyone.
 
 In these usecases, use a secret to encapsulate sensitive data.

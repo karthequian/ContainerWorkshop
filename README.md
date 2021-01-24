@@ -1,10 +1,6 @@
 # Introduction to Containers, Docker and Kubernetes
 
-Table of Contents
-=================
-
    * [Introduction to Containers, Docker and Kubernetes](#introduction-to-containers-docker-and-kubernetes)
-   * [Table of Contents](#table-of-contents)
    * [Welcome](#welcome)
    * [Module 1: Introduction to Containers and Docker](#module-1-introduction-to-containers-and-docker)
       * [Prerequisites](#prerequisites)

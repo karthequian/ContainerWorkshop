@@ -16,15 +16,20 @@ Table of Contents
       * [Updating and Building a Docker Image](#updating-and-building-a-docker-image)
    * [Module 2- Introduction to Kubernetes](#module-2--introduction-to-kubernetes)
       * [Prerequisites](#prerequisites-1)
-      * [Kubectl](#kubectl)
-      * [Minikube](#minikube)
+      * [kubectl](#kubectl)
+      * [minikube](#minikube)
       * [Start minikube](#start-minikube)
       * [Set up your helloworld](#set-up-your-helloworld)
       * [Setting up a Service](#setting-up-a-service)
       * [Cleaning up your resources](#cleaning-up-your-resources)
       * [Commands run in this section](#commands-run-in-this-section)
    * [Module 3- Creating a real world application in Kubernetes](#module-3--creating-a-real-world-application-in-kubernetes)
+      * [Prerequisites](#prerequisites-2)
    * [Module 4- Debugging Application Issues and Errors](#module-4--debugging-application-issues-and-errors)
+      * [Prerequisites](#prerequisites-3)
+      * [Kubernetes Techniques](#kubernetes-techniques)
+      * [Looking at logs](#looking-at-logs)
+      * [Executing commands in a container](#executing-commands-in-a-container)
 
 ---
 
@@ -380,9 +385,9 @@ Now that we know how to run a container based on an image, let's update and run 
 # Module 2- Introduction to Kubernetes
 ## Prerequisites
 For this section, we will need to install 2 tools that allow you to run and interact with a Kubernetes cluster locally.
-## Kubectl
+## kubectl
 
-Kubectl is the Kubernetes command line tool that allows you to run commands against a Kubernetes cluster. 
+kubectl is the Kubernetes command line tool that allows you to run commands against a Kubernetes cluster. 
 
 On a mac, you can install kubectl following along with [the install document](https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-macos). 
 
@@ -392,9 +397,9 @@ To test whether kubectl was installed correctly, open your command line, and typ
 
 <img src="images/kubectl-install1.png" />
 
-## Minikube
+## minikube
 
-Minikube is a tool that allows you to run a single node Kubernetes cluster on your machine. It's primary usecase is to help users learn about Kubernetes and work with Kubernetes locally.
+minikube is a tool that allows you to run a single node Kubernetes cluster on your machine. It's primary usecase is to help users learn about Kubernetes and work with Kubernetes locally.
 
 On a mac, you can install minikube following along the [Official Install documents](https://minikube.sigs.k8s.io/docs/start/#what-youll-need). 
 
@@ -406,7 +411,12 @@ To test whether minikube was installed correctly, open your command line, and ty
 
 ## Start minikube
 
-Run the command `minikube start --driver=hyperkit`. This command sets up a Kubernetes dev environment for you via hyperkit (on mac). There are other drivers that can be used here as well like the docker, virtualbox or ssh. 
+Run the command 
+```
+minikube start --driver=hyperkit
+```
+
+This command sets up a Kubernetes dev environment for you via hyperkit (on mac). There are other drivers that can be used here as well like the docker, virtualbox or ssh. 
 
 The last statement in the output states that kubectl can talk to minikube. We can verify this by running the command `kubectl get nodes`
 
@@ -492,8 +502,85 @@ kubectl delete -f helloworld.yaml
 ```
 
 # Module 3- Creating a real world application in Kubernetes
+## Prerequisites
+
+There are no prerequisites for this section
+
+
 
 # Module 4- Debugging Application Issues and Errors
+## Prerequisites
 
+There are no prerequisites for this section
+
+## Kubernetes Techniques
+When things are not deploying as expected, or things seem to be taking a while, start by describing the deployments and pods associated with the deployments to look for errors.
+
+Run the helloworld application that is bundled with this section by typing:
+
+```
+kubectl create -f ./module4/helloworld-with-bad-pod.yaml
+```
+
+As it's starting up, run the command: 
+
+```
+kubectl get deployments
+``` 
+
+followed by 
+
+```
+kubectl describe deployment bad-helloworld-deployment
+```
+
+Notice that there are 0 available pods in the deployment. This indicates that there is something wrong going on with the pod.
+
+Introspect the pods with a ```kubectl get pods```, and notice that the `bad-helloworld-deployment` pod is in an image pull backoff state and isn't ready.
+
+Describing the pod with `kubectl describe pod bad-helloworld-deployment-7bb4b7466-f6nkm`, will indicate that kubernetes is having trouble pull the pod from the repository, either because it doesn't exist, or because we're missing the repository credentials.
+
+## Looking at logs
+Another technique to track pod progress is looking at the log files for a pod. If you write your logs to standard out, you can get to them by the command `kubectl logs <pod_name>`. This will return the log statements that are being written by your application in the pod.
+
+To practice, deploy the `helloworld-all` deployment and service with the command:
+
+```
+kubectl apply -f ./module4/helloworld-all.yaml
+```
+
+Observe the pods for the deployment with the following command:
+
+```
+kubectl get pods 
+```
+
+Find the pod related to the helloworld deployment, and look at the logs associated with the pod by using the following command:
+
+```
+kubectl logs <pod_name>
+```
+
+You can also get a live tail of these logs by using the `-f` option as shown below:
+
+```
+kubectl logs -f <pod_name>
+```
+
+Access the URL for the application in the web browser and see if more logs are populated.
+
+```
+minikube service helloworld
+```
+
+## Executing commands in a container
+Finally, sometimes it is necessary to exec into the actual container running the pod to look for errors, or state. To do this, run the exec command 
+```
+kubectl exec -it <pod-name> -c <container-name> -- /bin/bash
+``` 
+
+where -it is an interactive terminal and -c is the flag to specify the container name. Finally we want a bash style terminal.
+
+This drops us into the container, and we can introspect into the details of our application.
 
 

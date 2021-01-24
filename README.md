@@ -14,15 +14,15 @@ Table of Contents
     * [Updating and Building a Docker Image](#updating-and-building-a-docker-image)
 * [Module 2- Introduction to Kubernetes](#module-2--introduction-to-kubernetes)
     * [Prerequisites](#prerequisites-1)
-    * [kubectl](#kubectl)
-    * [minikube](#minikube)
+    * [Kubectl](#kubectl)
+    * [Minikube](#minikube)
     * [Start minikube](#start-minikube)
     * [Set up your helloworld](#set-up-your-helloworld)
     * [Setting up a Service](#setting-up-a-service)
+    * [Cleaning up your resources](#cleaning-up-your-resources)
     * [Commands run in this section](#commands-run-in-this-section)
 * [Module 3- Creating a real world application in Kubernetes](#module-3--creating-a-real-world-application-in-kubernetes)
 * [Module 4- Debugging Application Issues and Errors](#module-4--debugging-application-issues-and-errors)
-
 
 ---
 
@@ -378,8 +378,7 @@ Now that we know how to run a container based on an image, let's update and run 
 ## Module 2- Introduction to Kubernetes
 ### Prerequisites
 For this section, we will need to install 2 tools that allow you to run and interact with a Kubernetes cluster locally.
-
-#### kubectl
+#### Kubectl
 
 Kubectl is the Kubernetes command line tool that allows you to run commands against a Kubernetes cluster. 
 
@@ -391,7 +390,7 @@ To test whether kubectl was installed correctly, open your command line, and typ
 
 <img src="images/kubectl-install1.png" />
 
-#### minikube
+#### Minikube
 
 Minikube is a tool that allows you to run a single node Kubernetes cluster on your machine. It's primary usecase is to help users learn about Kubernetes and work with Kubernetes locally.
 
@@ -469,15 +468,25 @@ To view the final user interface, use the minikube service command.
 
 This will open your web browser to your application that is running in Kubernetes!
 
+### Cleaning up your resources
 
-#### Commands run in this section
+To delete the deployments and services, you can run the `kubectl delete` command. For example, to delete an individual service, you can run the command `kubectl delete service <service-name>`. 
+
+To delete our helloworld service, run `kubectl delete service helloworld`.
+
+To verify that the helloworld service was deleted, run the command `kubectl get services`, and check to see if the service is still there; most likely the service will either be in a deleting state, or not be in the list.
+
+Similar to the `apply` and `create` commands, you can also pass a filename as well. For example, similar to the way the deployment was created from the helloworld.yaml file, run the delete `kubectl delete -f helloworld.yaml` to delete all resources mentioned in the file.
+
+### Commands run in this section
+
 ```
-pwd
-ls -al
 kubectl get all
 kubectl create -f helloworld.yaml
 kubectl expose deployment helloworld --type=NodePort
 minikube service helloworld
+kubectl delete service helloworld
+kubectl delete -f helloworld.yaml
 ```
 
 ## Module 3- Creating a real world application in Kubernetes

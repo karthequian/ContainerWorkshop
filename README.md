@@ -506,7 +506,143 @@ kubectl delete -f helloworld.yaml
 
 There are no prerequisites for this section
 
+## Dealing with Environment Variables
+Applications that require parameterized values are sent to the application via environment variables. 
 
+The Environment variables are read by the application in 2 ways:
+
+a) At startup time, if the Dockerfile is configured to pass the value of the env to the application startup.
+b) The application has code to read the specific value of the env variable.
+
+To see an example, run the following file:
+
+```
+kubectl create -f reader-deployment-with-env.yaml
+```
+
+This creates a deployment with an env section as shown below:
+
+```
+        env:
+        - name: log_level
+          value: "error"
+```
+
+This is essentially sending an env variable called "log_level" to the container environment with the value "error".
+
+To check whether this is the case, exec into the pod by first getting the name of the pod for the `logreader` deployment using the command
+
+```
+kubectl get pod
+```
+
+Next, exec into the container with the following command:
+
+```
+kubectl exec -it PODNAME -- bash
+```
+
+where PODNAME is the name of the `logreader` pod.
+
+Once inside the container environment, run the command `env` to list all the environment variables in the container. One of these variables will be `log_level` with the value `error`.
+
+## Configurations via configmaps
+
+### Learn how to declare a configmap
+Applications require a way for us to pass data to them that can be changed at deploy time. Examples of this might be log-levels or urls of external systems that the application might need at startup time. Instead of hardcoding these values, we can use a configmap in kubernetes, and pass these values as environment variables to the container.
+
+We will take an example of "log_level", and pass the value "debug" to a pod via a configmap in this example.
+
+To create a configmap for this literal type 
+```
+kubectl create configmap logger --from-literal=log_level=debug
+```
+
+To see all your configmaps: 
+```
+kubectl get configmaps
+```
+
+To read the value in the logger configmap: 
+```
+kubectl get configmap/logger -o yaml
+```
+
+To edit the value, we can run 
+```
+kubectl edit configmap/logger
+```
+
+### Understand how to call a configmap from a deployment
+Adding a configmap to a deployment is done via environment variables. Instead of sending a value for the env, we can pass a configmap.
+
+Open up the `reader-configmap-deployment.yaml` file. Note the `env` section that looks like:
+
+```
+        env:
+        - name: log_level
+          valueFrom:
+            configMapKeyRef:
+              name: logger #Read from a configmap called logger
+              key: log_level  #Read the key called log_level
+```
+
+The `valueFrom` section declares that the value is populated via a `configMapKeyRef`. The name of the configmap is declared as well as the key to use in that section.
+
+Run the application with the command below:
+
+```
+kubectl create -f reader-configmap-deployment.yaml
+```
+
+To view the logs, run the command:
+```
+kubectl logs <pod-name>
+```
+
+## Configurations via secrets
+Just like configuration data, applications require other data that might be of more sensitive in nature- for example database passwords, or API tokens. Passing these in the yaml for a deployment or pod would make them visible to everyone.
+
+In these usecases, use a secret to encapsulate sensitive data.
+
+To create a secret: 
+```
+kubectl create secret generic apikey --from-literal=api_key=123456789
+```
+
+Notice that we can't read the value of the secret directly:
+```
+kubectl get secret apikey -o yaml
+```
+
+### Understand how to add a secret to a deployment
+
+Adding a secret to a deployment is similar to what we did for configmaps. You can add a secret to the env portion, and start up the deployment with:
+
+```
+kubectl create -f secretreader-deployment.yaml
+```
+
+## Running a bigger example
+
+In this section, we'll take the popular Kubernetes guestbook, and attempt to run it! You can read more about the guestbook here: [https://kubernetes.io/docs/tutorials/stateless-application/guestbook/]
+
+
+Load up the guestbook by running the command: 
+```
+minikube service frontend
+```
+
+The output would look like this:
+```
+$ minikube service frontend
+|-----------|----------|-------------|---------------------------|
+| NAMESPACE |   NAME   | TARGET PORT |            URL            |
+|-----------|----------|-------------|---------------------------|
+| default   | frontend |          80 | http://192.168.64.2:31824 |
+|-----------|----------|-------------|---------------------------|
+🎉  Opening service default/frontend in default browser...
+```
 
 # Module 4- Debugging Application Issues and Errors
 ## Prerequisites

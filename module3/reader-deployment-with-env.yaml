@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logreader
+  labels:
+    app: logreader
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logreader
+  template:
+    metadata:
+      labels:
+        app: logreader
+    spec:
+      containers:
+      - name: logreader
+        image: karthequian/reader:latest
+        env:
+        - name: log_level
+          value: "error"

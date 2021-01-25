@@ -34,6 +34,11 @@
       * [Kubernetes Techniques](#kubernetes-techniques)
       * [Looking at logs](#looking-at-logs)
       * [Executing commands in a container](#executing-commands-in-a-container)
+   * [Module 5- Advanced Topics](#module-5--advanced-topics)
+      * [Typical development workflow for Kuberentes](#typical-development-workflow-for-kuberentes)
+      * [Using Amazon Elastic Container Registry](#using-amazon-elastic-container-registry)
+      * [Using Helm Charts](#using-helm-charts)
+
 
 ---
 
@@ -381,10 +386,39 @@ $ docker rm $(docker ps -a -q)
 
 ## Update and Build a Docker Image
 
-Now that we know how to run a container based on an image, let's update and run a 
+Now that we know how to run a container based on an image, let's update, build and run our first container.
 
-## Updating and Building a Docker Image
+Navigate to the `/module1/helloearth` directory to see 3 files- 
 
+* Dockerfile- holds the instructions for how to build the container
+* index.html- has the code that you want to deploy
+* start.sh- the initial script to run when the container comes online
+
+Open the `index.html` page, and update the "myCity" to your city, as shown below.
+<img src="images/module1-1.png" />
+
+Once the index page is updated, it's time to build the docker image by using the `docker build` command below.  
+
+```
+docker build -t <username>/helloearth:latest
+```
+
+If you have a docker hub username, you can replace <username> with your dockerhub username.
+
+Take a look at your docker images by running the command below to verify that your image exists.
+
+```
+docker images
+
+```
+
+To run this image (where username is the docker hub username):
+
+```
+docker run -d -p 80:80/tcp <username>/helloearth:latest
+```
+
+---
 
 # Module 2- Introduction to Kubernetes
 ## Prerequisites
@@ -505,6 +539,7 @@ kubectl delete service helloworld
 kubectl delete -f helloworld.yaml
 ```
 
+---
 # Module 3- Creating a real world application in Kubernetes
 ## Prerequisites
 
@@ -651,6 +686,7 @@ $ minikube service frontend
 🎉  Opening service default/frontend in default browser...
 ```
 
+---
 # Module 4- Debugging Application Issues and Errors
 ## Prerequisites
 
@@ -726,4 +762,14 @@ where -it is an interactive terminal and -c is the flag to specify the container
 
 This drops us into the container, and we can introspect into the details of our application.
 
+---
 
+# Module 5- Advanced Topics
+
+## Typical development workflow for Kuberentes
+
+## Using Amazon Elastic Container Registry
+
+## Using Helm Charts
+
+---

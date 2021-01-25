@@ -668,7 +668,7 @@ kubectl create -f secretreader-deployment.yaml
 
 ## Running a bigger example
 
-In this section, we'll take the popular Kubernetes guestbook, and attempt to run it! You can read more about the guestbook here: [https://kubernetes.io/docs/tutorials/stateless-application/guestbook/]
+In this section, we'll take the popular Kubernetes guestbook, and attempt to run it! You can read more about the guestbook here: [https://kubernetes.io/docs/tutorials/stateless-application/guestbook/](https://kubernetes.io/docs/tutorials/stateless-application/guestbook/)
 
 
 Load up the guestbook by running the command: 

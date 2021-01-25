@@ -400,7 +400,7 @@ Open the `index.html` page, and update the "myCity" to your city, as shown below
 Once the index page is updated, it's time to build the docker image by using the `docker build` command below.  
 
 ```
-docker build -t <username>/helloearth:latest
+docker build -t <username>/helloearth:latest .
 ```
 
 If you have a docker hub username, you can replace <username> with your dockerhub username.

@@ -699,7 +699,7 @@ When things are not deploying as expected, or things seem to be taking a while, 
 Run the helloworld application that is bundled with this section by typing:
 
 ```
-kubectl create -f ./module4/helloworld-with-bad-pod.yaml
+kubectl create -f ./module4/helloworld-deployment-with-bad-pod.yaml
 ```
 
 As it's starting up, run the command: 
@@ -750,7 +750,7 @@ kubectl logs -f <pod_name>
 Access the URL for the application in the web browser and see if more logs are populated.
 
 ```
-minikube service helloworld
+minikube service helloworld-all-service
 ```
 
 ## Executing commands in a container

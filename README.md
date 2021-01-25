@@ -35,7 +35,7 @@
       * [Looking at logs](#looking-at-logs)
       * [Executing commands in a container](#executing-commands-in-a-container)
    * [Module 5- Advanced Topics](#module-5--advanced-topics)
-      * [Typical development workflow for Kuberentes](#typical-development-workflow-for-kuberentes)
+      * [Typical development workflow for Kubernetes](#typical-development-workflow-for-kuberentes)
       * [Using Amazon Elastic Container Registry](#using-amazon-elastic-container-registry)
       * [Using Helm Charts](#using-helm-charts)
 
@@ -52,7 +52,7 @@ To run the exercises in this section, you will need to install Docker on your lo
 
 Follow the instructions on the site to install Docker Desktop.
 
-You will need to have admin access to your workstation, and will see this dialog because Docker needs priviledged access.
+You will need to have admin access to your workstation, and will see this dialog because Docker needs privileged access.
 
 ![Privileged Access](images/docker-install1.png)
 
@@ -421,6 +421,7 @@ docker run -d -p 80:80/tcp <username>/helloearth:latest
 ---
 
 # Module 2- Introduction to Kubernetes
+
 ## Prerequisites
 For this section, we will need to install 2 tools that allow you to run and interact with a Kubernetes cluster locally.
 ## kubectl
@@ -454,7 +455,7 @@ Run the command
 minikube start --driver=hyperkit
 ```
 
-This command sets up a Kubernetes dev environment for you via hyperkit (on mac). There are other drivers that can be used here as well like the docker, virtualbox or ssh. 
+This command sets up a Kubernetes dev environment for you via hyperkit (on mac). There are other drivers that can be used here as well like the docker, Virtualbox or ssh. 
 
 The last statement in the output states that kubectl can talk to minikube. We can verify this by running the command `kubectl get nodes`
 
@@ -483,7 +484,7 @@ To run this, type:
 kubectl create -f helloworld.yaml
 ```
 
-This command creates a deployment resource from the file helloworld.yaml, which, in this case, contains a deployment called "hellworld", pulling from the image karthequian/helloworld, and exposes port 80 of the container to the pod.
+This command creates a deployment resource from the file helloworld.yaml, which, in this case, contains a deployment called "helloworld", pulling from the image karthequian/helloworld, and exposes port 80 of the container to the pod.
 
 Running this command will give you this output, stating that the deployment "hw" was created.
 
@@ -766,10 +767,48 @@ This drops us into the container, and we can introspect into the details of our 
 
 # Module 5- Advanced Topics
 
-## Typical development workflow for Kuberentes
+## Typical development workflow for Kubernetes
 
 ## Using Amazon Elastic Container Registry
 
+Demo the Amazon ECR. 
+
+Pull a public image on the ECR with the command:
+
+```
+docker pull public.ecr.aws/u6p0h3r2/karthequian:latest
+```
+
 ## Using Helm Charts
+
+Helm is a package manager for Kubernetes.
+
+- Demo using Helm:  [https://helm.sh/](https://helm.sh/)
+- Run through an install of Helm
+
+To create a sample helm chart named helloworld-helm type:
+
+```
+helm create helloworld-helm
+```
+
+This will create a folder with 
+```
+helloworld-helm /
+  Chart.yaml
+  values.yaml
+  templates /
+  charts /
+  .helmignore
+```
+
+The structure of this folder is as follows:
+
+- Chart.yaml: Main file that contains the description of our chart
+- values.yaml: Contains the default values for our chart
+- templates: Directory where Kubernetes resources are defined as templates
+- charts: Optional directory that may contain sub-charts
+- .helmignore: Define patterns to ignore when packaging (like .gitignore)
+
 
 ---

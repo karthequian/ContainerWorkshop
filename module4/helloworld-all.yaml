@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: helloworld
-        image: karthequian/helloworld:latest
+        image: public.ecr.aws/u6p0h3r2/karthequian:latest
         ports:
         - containerPort: 80
 ---
@@ -23,7 +23,7 @@ kind: Service
 metadata:
   name: helloworld-all-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
     protocol: TCP
